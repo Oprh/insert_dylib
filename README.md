@@ -1,13 +1,21 @@
 insert_dylib
 ============
+This is a fork of the command line utility for inserting a dylib load command into a Mach-O (https://github.com/Tyilo/insert_dylib).
+By making use of the https://github.com/LeanVel/cctools project, this tool has being ported to LINUX.
 
-Command line utility for inserting a dylib load command into a Mach-O binary.
-
-Does the following (to each arch if the binary is fat):
+It does the following (to each arch if the binary is fat):
 
 - Adds a `LC_LOAD_DYLIB` load command to the end of the load commands
 - Increments the mach header's `ncmds` and adjusts its `sizeofcmds`
 - ([Removes code signature if present](#removing-code-signature))
+
+Installation
+------------
+```
+$ git clone https://github.com/LeanVel/insert_dylib
+$ cd insert_dylib
+$ sudo ./Install.sh
+```
 
 Usage
 -----
@@ -30,7 +38,8 @@ If the `--weak` option is specified, `insert_dylib` will insert a `LC_LOAD_WEAK_
 $ cat > test.c
 int main(void) {
 	printf("Testing\n");
-	return 0;}
+	return 0;
+}
 ^D
 $ clang test.c -o test &> /dev/null
 $ insert_dylib /usr/lib/libfoo.dylib test
