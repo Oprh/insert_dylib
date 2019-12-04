@@ -321,9 +321,9 @@ bool check_load_commands(FILE *f, struct mach_header *mh, size_t header_offset, 
 				free(dylib_command);
 
 				if(cmp == 0) {
-					if(!ask("Binary already contains a load command for that dylib. Continue anyway?")) {
+					//if(!ask("Binary already contains a load command for that dylib. Continue anyway?")) {
 						return false;
-					}
+					//}
 				}
 
 				break;
@@ -408,12 +408,12 @@ bool insert_dylib(FILE *f, size_t header_offset, const char *dylib_path, off_t *
 		}
 	}
 
-	if(!empty) {
+/*	if(!empty) {
 		if(!ask("It doesn't seem like there is enough empty space. Continue anyway?")) {
 			return false;
 		}
 	}
-
+*/
 	fseeko(f, -((off_t)cmdsize), SEEK_CUR);
 
 	char *dylib_path_padded = calloc(dylib_path_size, 1);
@@ -476,9 +476,11 @@ int main(int argc, const char *argv[]) {
 	}
 
 	if(dylib_path[0] != '@' && stat(dylib_path, &s) != 0) {
-		if(!ask("The provided dylib path doesn't exist. Continue anyway?")) {
-			exit(1);
-		}
+		printf("The provided dylib path doesn't exist");
+		exit(1);
+	//	if(!ask("The provided dylib path doesn't exist. Continue anyway?")) {
+	//		exit(1);
+	//	}
 	}
 
 	bool binary_path_was_malloced = false;
